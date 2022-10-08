@@ -364,17 +364,13 @@ export class CarSoccer extends gfx.GfxApp
         // ADD YOUR CODE HERE
         if (this.ball.intersects(this.car)) {
             const distance = this.ball.position.distanceTo(this.car.position);
-            const hitVector = gfx.Vector3.subtract(this.ball.position,this.car.position);
+            const normalVector = gfx.Vector3.subtract(this.ball.position,this.car.position);
             const relativeVelocity = gfx.Vector3.subtract(this.ball.velocity,this.car.velocity);
             if (distance < (this.ball.boundingSphere.radius + this.car.boundingSphere.radius)) {
                 const rectifyDistance = (this.ball.boundingSphere.radius + this.car.boundingSphere.radius) - distance;
-                this.ball.position.add(gfx.Vector3.multiplyScalar(gfx.Vector3.normalize(hitVector),rectifyDistance));
+                this.ball.position.add(gfx.Vector3.multiplyScalar(gfx.Vector3.normalize(normalVector),rectifyDistance));
             }
-            this.ball.velocity = gfx.Vector3.subtract(relativeVelocity,(gfx.Vector3.multiplyScalar(hitVector, 2 * gfx.Vector3.dot(hitVector, relativeVelocity))));
-            console.log(this.car.position);
-            console.log(this.ball.position);
-            console.log(this.ball.velocity);
-            console.log("------------------");
+            this.ball.velocity = gfx.Vector3.subtract(relativeVelocity,(gfx.Vector3.multiplyScalar(normalVector, 2 * gfx.Vector3.dot(normalVector, relativeVelocity))));
         }
 
 
