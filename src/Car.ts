@@ -13,6 +13,7 @@ import * as gfx from 'gophergfx'
 export class Car extends gfx.BoxMesh
 {
     public forwardSpeed: number;
+    public rotationSpeed: number;
 
     public velocity: gfx.Vector3;
     public startPosition: gfx.Vector3;
@@ -25,6 +26,7 @@ export class Car extends gfx.BoxMesh
 
         // Initialize member variables
         this.forwardSpeed = 0;
+        this.rotationSpeed = 0;
         this.velocity = new gfx.Vector3();
         this.startPosition = new gfx.Vector3(0, height/2, 0);
         this.size = new gfx.Vector3(width, height, depth);
@@ -50,11 +52,14 @@ export class Car extends gfx.BoxMesh
     update(deltaTime: number): void
     {
         // Update the car's velocity (in world coordinates)
-        this.velocity.set(0, 0, this.forwardSpeed);
+        // this.velocity.set(0, 0, this.forwardSpeed);
+        this.rotateY(this.rotationSpeed * deltaTime);
+        this.translateX(this.rotationSpeed * deltaTime);
+        this.translateZ(this.forwardSpeed * deltaTime);
 
-        // Update the car position based on the velocity
-        const translation = gfx.Vector3.multiplyScalar(this.velocity, deltaTime)
-        this.position.add(translation);
+        // // Update the car position based on the velocity
+        // const translation = gfx.Vector3.multiplyScalar(this.velocity, deltaTime)
+        // this.position.add(translation);
     }
 
     reset()
@@ -62,5 +67,7 @@ export class Car extends gfx.BoxMesh
         this.position.copy(this.startPosition);
         this.velocity.set(0, 0, 0);
         this.forwardSpeed = 0;
+        this.rotationSpeed = 0;
+        this.rotation = new gfx.Quaternion();
     }
 }

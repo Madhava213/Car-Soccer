@@ -59,7 +59,7 @@ export class Ball extends gfx.SphereMesh
     {
        // Set the initial position so the bottom edge is a meter above the ground
        this.position.set(0, this.radius/2 + 1, 0);
-       
+        this.velocity.set(0, 0, 0);
        this.shadow.position.y = -this.position.y + 0.005;
     }
 }
